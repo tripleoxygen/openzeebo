@@ -28,8 +28,8 @@
 _start:
 
         mov     r3, #0
-        ldr     r6, =SECTOR_PAGE                 @ sector per page (4)
-        ldr     r4, =0x0000000
+        ldr     r6, =SECTOR_PAGE                @ sector per page (4)
+        ldr     r4, =0x00000000			@ dest. addr.
         mov     r7, #0
         
         @ supervisor
@@ -51,14 +51,28 @@ _start:
         bl      clear_sdram
         
         @ setup nand controller
-        mov     r1, #0
         ldr     r0, =0xA0A00000
-        
-        b l
-        
+
+	@ chipset
+	mov	r1, #0x4	@ CS0 + undocumented bit
+	str	r1, [r0, #0xC]
+
+        @ config register 1
+	ldr	r1, =0xA25400C0
+	str	r1, [r0, #0x20]
+
+        @ config register 2
+	ldr	r1, =0x0004745E	@ =0x0004745f ?
+	str	r1, [r0, #0x24]
+
         @ reset nand
-        mov     r1, #0xd
-        str     r1, [r0]        
+        mov     r1, #0x31	@ 0x31 - Abort / Page
+        str     r1, [r0]       
+        mov     r1, #1
+        str     r1, [r0, #0x10]
+
+        mov     r1, #0xD	@ 0xD - Reset NAND device
+        str     r1, [r0]       
         mov     r1, #1
         str     r1, [r0, #0x10]
         nop
@@ -67,7 +81,7 @@ _start:
         nop
         
         @ check ID
-        mov     r1, #0xb
+        mov     r1, #0xB	@ 0xB - Fetch ID
         str     r1, [r0]
         mov     r1, #1
         str     r1, [r0, #0x10]
@@ -79,24 +93,17 @@ _start:
         ldr     r2, =0x5580b1ad
         cmp     r1, r2
         bne     blink_and_die
-        
- l:     
+            
         @ initial addr
         mov     r1, #0
         str     r1, [r0, #4]
         str     r1, [r0, #8]
         
-        @ dev_cfg0 & dev_cfg1
-        ldr     r1, =0xa25400c0
-        str     r1, [r0, #0x20]
-        ldr     r1, =0x0004745f
-        str     r1, [r0, #0x24]
-        
         @ chipsel
-        mov     r1, #0                          @ disable DM
-        str     r1, [r0, #0xC]
+        @mov     r1, #0                          @ disable DM
+        @str     r1, [r0, #0xC]
         
-        @ configure cmd_read_page_ecc        
+        @ read page (no ECC!)        
         mov     r1, #0x32
         str     r1, [r0]
         
@@ -111,15 +118,16 @@ _execute:
         str     r1, [r0, #0x10]
 _wait:
         ldr     r1, [r0, #0x14]
+	and	r1, r1, #0x20
         tst     r1, #0x20
-        beq     _wait
+        bne     _wait
         
-        tst     r1, #((1 << 4) | (1 << 8))
-        bne     blink_and_die
+@        tst     r1, #((1 << 4) | (1 << 8))
+@        bne     blink_and_die
         
         add     r2, r0, #0x100
         ldr     r5, =512
-        lsr     r5, #2
+        lsr     r5, #2		@ / 4 (1 DWORD)
         
 _buf_loop:
         ldr     r1, [r2], #4
@@ -159,6 +167,7 @@ clear_sdram:
         ldr     r1, =0xFFFFFFFF
         ldr     r0, =0x00000000
         ldr     r2, =MEM_SIZE
+	lsr	r2, #2
 _loop:
         str     r1, [r0], #4
         subs    r2, #1
