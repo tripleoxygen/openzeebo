@@ -1,0 +1,27 @@
+
+/* backup.bid
+ * Zeebo Backup
+ *
+ * Copyright (C) 2011 OpenZeebo
+ * Copyright (C) 2011 Triple Oxygen
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+ 
+#ifndef BACKUP_BID
+#define BACKUP_BID
+
+#define AEECLSID_BACKUP         0x01009FF6
+#define AEEGROUPID_SYSTEM_APIS  0x0102e99f
+#define AEEGROUPID_EMAPPLET    	0x01007001
+#define AEEGROUPID_19918    	0x01031fd6
+
+#endif // BACKUP_BID
