@@ -271,11 +271,11 @@ static boolean EnumFiles_InitAppData(EnumFilesApp *pApp)
 {
     pApp->m_nFileCount = 0;
     
-	if( ISHELL_CreateInstance( pApp->a.m_pIShell, AEECLSID_FILEMGR, (void **)(&pApp->m_pIFileMgr) ) != SUCCESS )
-	{
+    if( ISHELL_CreateInstance( pApp->a.m_pIShell, AEECLSID_FILEMGR, (void **)(&pApp->m_pIFileMgr) ) != SUCCESS )
+    {
         DBGPRINTF("[-] Failed to instantiate IFileMgr.");
-		return FALSE;
-	}
+	return FALSE;
+    }
     
     pApp->m_pLog = IFILEMGR_OpenFile(pApp->m_pIFileMgr, LOG_FILE, _OFM_CREATE);
     if(!pApp->m_pLog) {
@@ -307,6 +307,13 @@ static boolean EnumFiles_InitAppData(EnumFilesApp *pApp)
     
     // SYS
     if(EnumFiles_Iterate(pApp, AEEFS_SYS_DIR)) {
+        DBGPRINTF("[+] Done. %d files copied.", pApp->m_nFileCount);
+    } else {
+        DBGPRINTF("[-] Failed to copy requested files.");
+    }
+
+    // Z-WHEEL
+    if(EnumFiles_Iterate(pApp, "fs:/~0x01070798")) {
         DBGPRINTF("[+] Done. %d files copied.", pApp->m_nFileCount);
     } else {
         DBGPRINTF("[-] Failed to copy requested files.");

@@ -1,0 +1,6 @@
+#ifndef INTRO_BID
+#define INTRO_BID
+
+#define AEECLSID_INTRO    0x01009FF2
+
+#endif

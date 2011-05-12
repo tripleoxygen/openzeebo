@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BREWRes Name="intro" VERSION="1">
+<Objects MimeType="image/bmp">
+	<Object Id="5001" Name="IDI_LOGO">
+		<File>.\images\logo.bmp</File>
+	</Object>
+	<Object Id="5002" Name="IDI_FONT">
+		<File>.\images\font.bmp</File>
+	</Object>
+	<Object Id="5003" Name="IDI_MSG">
+		<File>.\images\msg.bmp</File>
+	</Object>
+	<Object Id="5004" Name="IDI_FOOTER">
+		<File>.\images\footer.bmp</File>
+	</Object>
+</Objects>
+</BREWRes>
