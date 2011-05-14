@@ -4,7 +4,10 @@ EXEC=backup
 CC=arm-none-eabi-gcc
 LD=arm-none-eabi-ld
 
-BREW_DIR=/home/tripleoxygen/brew
+# Insert the correct path for your BREW SDK installation.
+# Insira o caminho correto para a instalação de seu BREW SDK.
+BREW_DIR=/opt/brew
+
 INCDIRS=$(BREW_DIR)/sdk/inc $(BREW_DIR)/inc
 VPATH=$(BREW_DIR)/sdk/src
 

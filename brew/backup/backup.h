@@ -23,6 +23,8 @@
 #include "AEEFile.h"
 #include "AEEStdLib.h"
 
+#define VERSION "0.1"
+
 #define MAX_PATH 256
 #define MAX_ITEMS 500
 #define ZEEBOIDS_PATH "fs:/zeeboiddata"
