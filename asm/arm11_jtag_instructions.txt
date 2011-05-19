@@ -1,0 +1,32 @@
+
+= ARM11 JTAG Enable Patch =
+===== ©2011 OpenZeebo =====
+
+1. Start OpenOCD and halt the console within a few milliseconds after powering
+it up.
+	> openocd -f target/msm7201a_arm9.cfg -c "init" -c "halt"
+
+2. Disable target polling and set a hardware breakpoint at address 0x918870.
+	> bp 0x918870 4 hw
+	> poll off
+
+3. Resume target. After reaching the breakpoint, load the binary files to RAM.
+
+	- Trampoline shall be loaded at 0x918870:
+		> load_image arm11_jtag_trampoline 0x918870 bin
+
+	- Patch shall be loaded at 0x931000:
+		> load_image arm11_jtag 0x931000 bin
+	
+	If the target didn't stop at the breakpoint, the ARM11 has already been
+	started. Power off and start again.	
+			
+4. Resume target.
+
+5. Exit OpenOCD and load it again with ARM11's config script. It will detect the
+ARM11 core.
+
+NOTE: There is an issue with the JTAG controller after the main OS has started.
+Whether the AMSS is messing with the chain or some misbehavior related to
+internal TCK routing (the cores are *NOT* daisy-chained for now, it doesn't
+work). Not tested with Wiggler-type dongles.
