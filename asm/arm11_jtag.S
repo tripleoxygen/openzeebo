@@ -1,20 +1,35 @@
 
-@00918870
-@ROM:00918870 01 00 52 E3                 CMP     R2, #1
-@ROM:00918874 01 00 A0 E3                 MOV     R0, #1
-@ROM:00918878 00 02 81 15                 STRNE   R0, [R1,#0x200]
+/* arm11_jtag.S
+ * Zeebo ARM11 Enabler
+ *
+ * Copyright (C) 2011 OpenZeebo
+ * Copyright (C) 2011 Triple Oxygen
+ *
+ * This software is licensed under the terms of the GNU General Public
+ * License version 2, as published by the Free Software Foundation, and
+ * may be copied, distributed, and modified under those terms.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ */
+ 
+	@org 0x931000
+	.code 32
 
-@org 0x931000
-.code 32
+	push 	{r0,r1}
+	ldr	r1, =0xa9000000
 
-cmp	r2, #1
-mov	r0, #1
-strne	r0, [r1, #0x200]
+	@ Pull-up on MODE pins
+	ldr	r0, =0x57
+	str	r0, [r1, #0x254]
 
-ldr	r0, =0x57
-str	r0, [r1, #0x254]
-ldr	r0, =0x3
-str	r0, [r1, #0x26c]
+	@ ARM11-only mode
+	ldr	r0, =0b11
+	str	r0, [r1, #0x26c]
 
-ldr	r0, =0x0091887c
-mov	pc, r0
+	pop	{r0, r1}
+	bx	lr
+
