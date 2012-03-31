@@ -53,6 +53,25 @@ struct patch_info patch_112 = {
 };
 
 /* *****************************************************************************
+ * 1.1.1 data
+ */
+static struct patch_data patch_111_data[] = {
+	{
+	"\x00\x25\x7d\xe0\x7f\x49\xa0\x68\x05\xf0\x2c\xfa\x05\x1c\x00\xd0",
+	"\xc0\x46\x0e\xaa\x7f\x49\xa0\x68\x05\xf0\x2c\xfa\x05\x1c\x00\xd0",
+	16,
+	0x12c,
+	"\x1a\xf4\xa9\x39\x95\x6b\xc9\x43\xb5\x29\xb0\x81\xb3\xda\x8f\xa5\x7b\x56\x14\xe2",
+	},
+};
+
+struct patch_info patch_111 = {
+	.version = "1.1.1",
+	.data = patch_111_data,
+	.data_count = ARRAY_SIZE(patch_111_data),
+};
+
+/* *****************************************************************************
  * 1.1.0 data
  */
 static struct patch_data patch_110_data[] = {
@@ -76,6 +95,7 @@ struct patch_info patch_110 = {
  */
 struct patch_info *patch_list[] = {
 	&patch_110,
+	&patch_111,
 	&patch_112,
 	0
 };
