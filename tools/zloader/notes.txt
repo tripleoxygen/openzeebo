@@ -1,0 +1,124 @@
+arm11 peripheral port enable
+
+ROM:00000050 MRS     R0, CPSR
+ROM:00000054 ORR     R1, R0, #0x80
+ROM:00000058 MSR     CPSR_cf, R1
+ROM:0000005C MRC     p15, 0, R0,c1,c0, 1
+ROM:00000060 ORR     R0, R0, #0x80000000
+ROM:00000064 MCR     p15, 0, R0,c1,c0, 1
+ROM:00000068 MOV     R0, #0
+ROM:0000006C MCR     p15, 0, R0,c7,c10, 4
+ROM:00000070 MRC     p15, 0, R0,c1,c0, 0
+ROM:00000074 ORR     R0, R0, #0x200000
+ROM:00000078 MCR     p15, 0, R0,c1,c0, 0
+ROM:0000007C MOV     R0, #0
+ROM:00000080 MCR     p15, 0, R0,c7,c10, 4
+ROM:00000084 MOV     R0, 0x80000016
+ROM:0000008C MCR     p15, 0, R0,c15,c2, 4	/* PERIPHERAL PORT REMAP - ARM1136J-S TRM p. 3-164 - 3-168 */
+
+arm mcr 15 0 15 2 4 0x80000016
+
+
+mpus
+
+0xa0b00000 - NAND MPU - enable bit = +0x0
+0xa0e00000 - Peripheral MPU - enable bit = +0x400
+0xa8240000 - ? MPU - enable bit = +0x800
+0xa8250000 - ? MPU - enable bit = +0x800
+
+
+uart1 (gpio45 - rx, gpio46 - tx)
+
+-- clock setup
+
+0xa86000e0 = 0x30
+
+-- gpio setup
+
+mww phys 0xa9000020 45
+mww phys 0xa9000024 5 
+mww phys 0xa9000020 46
+mww phys 0xa9000024 5 
+
+-- uart setup
+
+ROM:0090DCB8 AC 40 9F E5                     LDR     R4, =0xA9A00000
+ROM:0090DCBC 00 50 A0 E3                     MOV     R5, #0
+...
+ROM:0090DCE4 C0 00 A0 E3                     MOV     R0, #0xC0 ; '+'
+ROM:0090DCE8 28 00 84 E5                     STR     R0, [R4,#0x28]
+ROM:0090DCEC B2 00 A0 E3                     MOV     R0, #0xB2 ; '¦'
+ROM:0090DCF0 2C 00 84 E5                     STR     R0, [R4,#0x2C]
+ROM:0090DCF4 7D 00 A0 E3                     MOV     R0, #0x7D ; '}'
+ROM:0090DCF8 30 00 84 E5                     STR     R0, [R4,#0x30]
+ROM:0090DCFC 1C 00 A0 E3                     MOV     R0, #0x1C
+ROM:0090DD00 34 00 84 E5                     STR     R0, [R4,#0x34]
+ROM:0090DD04 14 50 84 E5                     STR     R5, [R4,#0x14]
+ROM:0090DD08 20 50 84 E5                     STR     R5, [R4,#0x20]
+ROM:0090DD0C 1E 00 A0 E3                     MOV     R0, #0x1E
+ROM:0090DD10 1C 00 84 E5                     STR     R0, [R4,#0x1C]
+ROM:0090DD14 00 50 84 E5                     STR     R5, [R4]
+ROM:0090DD18 34 00 A0 E3                     MOV     R0, #0x34 ; '4'
+ROM:0090DD1C 04 00 84 E5                     STR     R0, [R4,#4]
+ROM:0090DD20 FF 00 A0 E3                     MOV     R0, #0xFF		/* 115200 */
+ROM:0090DD24 08 00 84 E5                     STR     R0, [R4,#8]
+ROM:0090DD28 30 00 A0 E3                     MOV     R0, #0x30 ; '0'
+ROM:0090DD2C 10 00 84 E5                     STR     R0, [R4,#0x10]
+ROM:0090DD30 10 00 A0 E3                     MOV     R0, #0x10
+ROM:0090DD34 10 00 84 E5                     STR     R0, [R4,#0x10]
+ROM:0090DD38 10 00 84 E5                     STR     R0, [R4,#0x10]
+ROM:0090DD3C 20 00 A0 E3                     MOV     R0, #0x20 ; ' '
+ROM:0090DD40 10 00 84 E5                     STR     R0, [R4,#0x10]
+ROM:0090DD44 10 00 84 E5                     STR     R0, [R4,#0x10]
+ROM:0090DD48 01 00 A0 E3                     MOV     R0, #1
+ROM:0090DD4C 10 00 84 E5                     STR     R0, [R4,#0x10]
+ROM:0090DD50 04 00 A0 E3                     MOV     R0, #4
+ROM:0090DD54 10 00 84 E5                     STR     R0, [R4,#0x10]
+
+mww phys 0xa9a00028 0xc0
+mww phys 0xa9a0002c 0xb2
+mww phys 0xa9a00030 0x7d
+mww phys 0xa9a00034 0x1c
+mww phys 0xa9a00014 0x0 
+mww phys 0xa9a00020 0x0
+mww phys 0xa9a0001c 0x1e
+mww phys 0xa9a00000 0x0 
+mww phys 0xa9a00004 0x34
+mww phys 0xa9a00008 0xcc
+mww phys 0xa9a00010 0x30
+mww phys 0xa9a00010 0x10
+mww phys 0xa9a00010 0x10
+mww phys 0xa9a00010 0x20
+mww phys 0xa9a00010 0x20
+mww phys 0xa9a00010 0x1 
+mww phys 0xa9a00010 0x4
+
+- usbloader
+mww phys 0xa9a00010 0x0a
+mww phys 0xa9a00010 0x30
+mww phys 0xa9a00010 0x10
+mww phys 0xa9a00010 0x20
+mww phys 0xa9a00028 0xc0
+mww phys 0xa9a0002c 0xaf
+mww phys 0xa9a00030 0x80
+mww phys 0xa9a00034 0x19
+mww phys 0xa9a00010 0x10
+mww phys 0xa9a00010 0x20
+mww phys 0xa9a00010 0x30
+mww phys 0xa9a00010 0x40
+mww phys 0xa9a00010 0x70
+mww phys 0xa9a00010 0xD0
+mww phys 0xa9a00018 0x7bf
+mww phys 0xa9a00014 0x0
+mww phys 0xa9a00020 115
+mww phys 0xa9a0001c 10
+mww phys 0xa9a00020 0
+mww phys 0xa9a00008 0xff
+mww phys 0xa9a00038 0
+mww phys 0xa9a00024 0x1e
+mww phys 0xa9a00000 16
+mww phys 0xa9a00004 0x34
+mww phys 0xa9a00010 0x5
+
+
+0xc0008848 = start_kernel
