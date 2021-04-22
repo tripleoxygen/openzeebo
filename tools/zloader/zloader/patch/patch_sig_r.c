@@ -32,9 +32,27 @@
  * SIG enable/restore PATCH DATA
  */
 
+/* *****************************************************************************
+ * 2.1.2 MX data
+ */
+static struct patch_data patch_212mx_data[] = {
+	{
+        "\x00\x25\x7d\xe0\x7f\x49\xa0\x68\xf5\xf7\xbe\xef\x05\x1c\x00\xd0",
+	"\xc0\x46\x0e\xaa\x7f\x49\xa0\x68\xf5\xf7\xbe\xef\x05\x1c\x00\xd0",
+	16,
+	0x13c,
+	"\x74\xfe\x6c\x5b\x75\x01\x73\x1e\xb2\xa8\x9b\x54\x59\x69\x3b\xf0\x91\xf4\x5e\x67",
+	},
+};
+
+struct patch_info patch_212mx = {
+	.version = "2.1.2 MX",
+	.data = patch_212mx_data,
+	.data_count = ARRAY_SIZE(patch_212mx_data),
+};
 
 /* *****************************************************************************
- * 1.1.2 data - SIG enable/restore
+ * 1.1.2 data
  */
 static struct patch_data patch_112_data[] = {
 	{
@@ -97,5 +115,6 @@ struct patch_info *patch_list[] = {
 	&patch_110,
 	&patch_111,
 	&patch_112,
+	&patch_212mx,
 	0
 };

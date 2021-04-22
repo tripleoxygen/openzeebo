@@ -32,9 +32,27 @@
  * Homebrew patch/SIG disable PATCH DATA
  */
 
+/* *****************************************************************************
+ * 2.1.2 MX data
+ */
+static struct patch_data patch_212mx_data[] = {
+	{
+	"\xc0\x46\x0e\xaa\x7f\x49\xa0\x68\xf5\xf7\xbe\xef\x05\x1c\x00\xd0",
+	"\x00\x25\x7d\xe0\x7f\x49\xa0\x68\xf5\xf7\xbe\xef\x05\x1c\x00\xd0",
+	16,
+	0x13c,
+	"\x38\x19\x47\xdf\x1a\x69\xfe\x3c\xbb\x12\xff\xb8\x9d\x71\x4d\x0f\xb2\x06\xcd\x3a",
+	},
+};
+
+struct patch_info patch_212mx = {
+	.version = "2.1.2 MX",
+	.data = patch_212mx_data,
+	.data_count = ARRAY_SIZE(patch_212mx_data),
+};
 
 /* *****************************************************************************
- * 1.1.2 data - Homebrew patch/SIG disable
+ * 1.1.2 data
  */
 static struct patch_data patch_112_data[] = {
 	{
@@ -97,5 +115,6 @@ struct patch_info *patch_list[] = {
 	&patch_110,
 	&patch_111,
 	&patch_112,
+	&patch_212mx,
 	0
 };
