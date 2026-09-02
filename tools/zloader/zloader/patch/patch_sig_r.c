@@ -9,7 +9,7 @@
  *    notice, this list of conditions and the following disclaimer.
  *  * Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
- *    the documentation and/or other materials provided with the 
+ *    the documentation and/or other materials provided with the
  *    distribution.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -19,7 +19,7 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
- * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED 
+ * OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED
  * AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
  * OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
@@ -33,11 +33,30 @@
  */
 
 /* *****************************************************************************
+ * 2.1.3 MX data
+ */
+static struct patch_data patch_213mx_data[] = {
+	{
+		"\x00\x25\x7d\xe0\x7f\x49\xa0\x68\xf4\xf7\x3e\xef\x05\x1c\x00\xd0",
+		"\xc0\x46\x0e\xaa\x7f\x49\xa0\x68\xf4\xf7\x3e\xef\x05\x1c\x00\xd0",
+		16,
+		0x14a,
+		"\x21\x3b\x54\x7a\xc2\x2f\xf6\x48\x0e\x5f\x86\x23\xbb\xb5\xac\x6a\xf8\xec\x19\xf7",
+	},
+};
+
+struct patch_info patch_213mx = {
+	.version = "2.1.3 MX",
+	.data = patch_213mx_data,
+	.data_count = ARRAY_SIZE(patch_213mx_data),
+};
+
+/* *****************************************************************************
  * 2.1.2 MX data
  */
 static struct patch_data patch_212mx_data[] = {
 	{
-        "\x00\x25\x7d\xe0\x7f\x49\xa0\x68\xf5\xf7\xbe\xef\x05\x1c\x00\xd0",
+	"\x00\x25\x7d\xe0\x7f\x49\xa0\x68\xf5\xf7\xbe\xef\x05\x1c\x00\xd0",
 	"\xc0\x46\x0e\xaa\x7f\x49\xa0\x68\xf5\xf7\xbe\xef\x05\x1c\x00\xd0",
 	16,
 	0x13c,
@@ -57,7 +76,7 @@ struct patch_info patch_212mx = {
 static struct patch_data patch_112_data[] = {
 	{
 	"\x00\x25\x7d\xe0\x7f\x49\xa0\x68\xf4\xf7\x3e\xef\x05\x1c\x00\xd0",
-	"\xc0\x46\x0e\xaa\x7f\x49\xa0\x68\xf4\xf7\x3e\xef\x05\x1c\x00\xd0",	
+	"\xc0\x46\x0e\xaa\x7f\x49\xa0\x68\xf4\xf7\x3e\xef\x05\x1c\x00\xd0",
 	16,
 	0x14a,
 	"\x21\x3b\x54\x7a\xc2\x2f\xf6\x48\x0e\x5f\x86\x23\xbb\xb5\xac\x6a\xf8\xec\x19\xf7",
@@ -116,5 +135,6 @@ struct patch_info *patch_list[] = {
 	&patch_111,
 	&patch_112,
 	&patch_212mx,
+	&patch_213mx,
 	0
 };
